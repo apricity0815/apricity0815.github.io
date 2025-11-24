@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>XIUBlog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="media/mdui/css/mdui.min.css">
+    <link rel="stylesheet" href="media/css/post.css">
+    <link rel="stylesheet" href="media/live2d/css/live2d.css" />
+    
+</head>
+<body class=" mdui-appbar-with-toolbar  mdui-theme-primary-pink mdui-theme-accent-pink">
+<header class="mdui-toolbar mdui-color-pink mdui-appbar-fixed mdui-appbar-scroll-toolbar-hide" style="z-index: 1000">
+    <a href="javascript:;" mdui-drawer="{target: '#left-drawer',overlay:true}" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">menu</i></a>
+    <span class="mdui-typo-title">XIUBlog</span>
+    <div class="mdui-toolbar-spacer"></div>
+<!--    <a href="javascript:history.go(0);" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+    <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">more_vert</i></a>
+</header>
+
+<div class="mdui-drawer mdui-color-white mdui-drawer-full-height mdui-drawer-close" id="left-drawer">
+    <ul class="mdui-list">
+        <li class="mdui-subheader">菜单</li>
+        
+        <li class="mdui-list-item mdui-ripple">
+            <a href="/" class="mdui-list-item-content">首页</a>
+        </li>
+        
+        <li class="mdui-list-item mdui-ripple">
+            <a href="/archives" class="mdui-list-item-content">归档</a>
+        </li>
+        
+        <li class="mdui-list-item mdui-ripple">
+            <a href="/tags" class="mdui-list-item-content">标签</a>
+        </li>
+        
+        <li class="mdui-list-item mdui-ripple">
+            <a href="/post/about" class="mdui-list-item-content">关于</a>
+        </li>
+        
+    </ul>
+</div>
+
+<div id="content" class="site-content">
+    <div id="primary" class="content-area">
+        <main id="main" class="site-main" role="main">
+            <article id="post-1270" class="post-1270 post type-post status-publish format-standard hentry category-90 category-129 tag-149">
+                <header class="entry-header">
+                    <h1 class="entry-title">GoogleNet</h1>
+                    <p class="entry-census">发布于 2025-11-18</p>
+                    <hr>
+                </header>
+                <div class="neko">
+                    <h1 id="1网络-亮点">1.网络 亮点：</h1>
+<ol>
+<li>引入Inception结构（融合不同尺度的特征信息）</li>
+<li>使用1✖1的卷积核进行降维以及映射处理</li>
+<li>添加两个辅助分类器帮助训练</li>
+<li>丢弃全连接层，使用平均池化层（减少了模型参数）<br>
+<img src="https://apricity0815.github.io/post-images/1763985711572.png" alt="" loading="lazy"></li>
+</ol>
+<h1 id="2googlenet-网络结构解析">2.GoogLeNet 网络结构解析</h1>
+<h2 id="21-初始层">2.1 初始层</h2>
+<figure data-type="image" tabindex="1"><img src="https://apricity0815.github.io/post-images/1763985838502.png" alt="" loading="lazy"></figure>
+<ul>
+<li>卷积层：GoogLeNet 开始于一个 7x7 的卷积层，通常带有步幅为 2，用于初步提取图像中的基本特征。</li>
+<li>最大池化层：紧随其后的是一个 3x3 的最大池化层，步幅为 2，用于减小特征图的尺寸，降低计算量。</li>
+<li>卷积层：之后是两个连续的 3x3 卷积层，用于进一步特征提取。</li>
+<li>最大池化层：再次进行最大池化，继续减小特征图的尺寸。</li>
+</ul>
+<h2 id="22-inception结构">2.2 Inception结构</h2>
+<h3 id="221-inception原始结构一种并联结构将特征矩阵同时输入到多个分支进行处理并将输出的特征矩阵按深度进行拼接得到最终输出">2.2.1 <strong>Inception原始结构</strong>：一种并联结构，将特征矩阵同时输入到多个分支进行处理，并将输出的特征矩阵按深度进行拼接，得到最终输出。</h3>
+<p><strong>作用</strong>：增加网络深度和宽度的同时减少参数<br>
+<img src="https://apricity0815.github.io/post-images/1763985825545.png" alt="" loading="lazy"></p>
+<h3 id="222-inception-降维在原始-inception-结构的基础上在分支-234-上加入了卷积核大小为-1x1-的卷积层目的是为了降维减小深度减少模型训练参数减少计算量">2.2.2 <strong>inception + 降维</strong>：在原始 inception 结构的基础上，在分支 2，3，4 上加入了卷积核大小为 1x1 的卷积层，目的是为了降维（减小深度），减少模型训练参数，减少计算量。</h3>
+<figure data-type="image" tabindex="2"><img src="https://apricity0815.github.io/post-images/1763985872534.png" alt="" loading="lazy"></figure>
+<ul>
+<li><strong>1x1 卷积分支</strong>：用于降维，减少后续计算的成本。</li>
+<li><strong>3x3 卷积分支</strong>：用于提取局部特征，通常在 1x1 卷积之后。</li>
+<li><strong>5x5 卷积分支</strong>：用于捕获更大范围的特征，同样在 1x1 卷积之后。</li>
+<li><strong>最大池化分支</strong>：用于捕捉图像中的重要特征，同时在池化之后使用 1x1 卷积以保持通道数。<br>
+<em>注：CNN 参数个数 = 卷积核尺寸×卷积核深度 × 卷积核组数 = 卷积核尺寸 × 输入特征矩阵深度 × 输出特征矩阵深度</em></li>
+</ul>
+<h3 id="223细节详解">2.2.3细节详解：</h3>
+<h4 id="11卷积核降维功能举例"><strong>1×1卷积核降维功能举例</strong>：</h4>
+<figure data-type="image" tabindex="3"><img src="https://apricity0815.github.io/post-images/1763985887135.png" alt="" loading="lazy"></figure>
+<h4 id="inception模块只会改变特征图的通道数而不会改变特征图尺寸大小"><strong>Inception模块只会改变特征图的通道数，而不会改变特征图尺寸大小</strong>：</h4>
+<ul>
+<li>Inception模块的核心思想是在<strong>同一网络层</strong>中提取<strong>不同尺度</strong>的特征，然后将它们融合。如果特征图尺寸改变，不同分支的输出就无法直接拼接。</li>
+<li>为了保持特征图尺寸不变，Inception模块中的每个卷积操作都使用了<strong>精确的padding策略</strong></li>
+<li>卷积核大小为K，步长为S，输入尺寸为W，输出尺寸为W'，填充为P：<strong>W' = (W - K + 2P) / S + 1</strong></li>
+</ul>
+<pre><code># 示例：Inception模块中的卷积操作
+1×1 卷积: padding=0  # 保持尺寸不变
+3×3 卷积: padding=1  # 保持尺寸不变  
+5×5 卷积: padding=2  # 保持尺寸不变
+池化层:   padding=1  # 保持尺寸不变
+</code></pre>
+<h4 id="模块中不对称设计"><strong>模块中不对称设计</strong></h4>
+<h5 id="卷积分支先11卷积是为了计算效率避免大卷积核在高通道数下的计算爆炸"><strong>卷积分支</strong>：先1×1卷积是为了<strong>计算效率</strong>，避免大卷积核在高通道数下的计算爆炸</h5>
+<p>大尺寸卷积核（3×3, 5×5）在<strong>高通道数</strong>时计算成本极高</p>
+<pre><code># 计算量对比
+输入: 28×28×256
+
+# 直接5×5卷积
+5×5卷积, 输出128通道: 计算量 = 28×28×256×5×5×128 ≈ 6.4亿次运算
+
+# 先1×1降维再5×5卷积  
+1×1卷积降到64通道: 28×28×256×1×1×64 ≈ 1.3亿次运算
+5×5卷积, 输出128通道: 28×28×64×5×5×128 ≈ 1.6亿次运算
+总计算量 ≈ 2.9亿次运算 (减少55%！)
+</code></pre>
+<p>降维效果：</p>
+<pre><code># 3×3卷积分支
+branch_3x3 = Conv1x1(input, filters=96)    # 先降维
+branch_3x3 = Conv3x3(branch_3x3, filters=128)  # 再提取特征
+
+# 5×5卷积分支  
+branch_5x5 = Conv1x1(input, filters=16)    # 先大幅降维
+branch_5x5 = Conv5x5(branch_5x5, filters=32)   # 再提取特征
+</code></pre>
+<h5 id="池化分支先maxpool是为了特征完整性确保空间下采样基于最显著-最原始的特征响应"><strong>池化分支</strong>：先MaxPool是为了<strong>特征完整性</strong>，确保空间下采样基于最显著、最原始的特征响应</h5>
+<pre><code># 如果池化分支也先1×1卷积会怎样？
+不好的设计: Conv1x1 → MaxPool
+问题: 1×1卷积会改变所有像素值，可能破坏原始的空间特征结构
+
+# 实际设计: 先MaxPool再1×1卷积
+好的设计: MaxPool → Conv1x1
+优势: 先保留最显著的空间特征，再调整通道数
+
+
+假设输入特征图某个局部区域：
+输入区域 = [[10, 8, 5],
+           [9, 12, 7], 
+           [6, 4, 3]]  # 最大值12在中心
+
+# 方案A: 先1×1卷积（假设权重为0.5）
+处理后 = [[5, 4, 2.5],
+         [4.5, 6, 3.5],
+         [3, 2, 1.5]]
+MaxPool后 = 6  # 丢失了原始的最大响应12！
+
+# 方案B: 先MaxPool  
+MaxPool后 = 12  # 保留原始最大响应
+1×1卷积后 = 12 × 0.5 = 6  # 只是缩放，信息本质不变
+</code></pre>
+<h2 id="23-辅助分类模块">2.3 辅助分类模块</h2>
+<ul>
+<li>GoogLeNet 有 3 个输出层，其中的两个是辅助分类层。</li>
+<li>两个辅助输出层结构相同，但位于网络的不同深度。
+<ul>
+<li><strong>辅助输出层1</strong>：位于网络中间层（在Inception 4a之后）</li>
+<li><strong>辅助输出层2</strong>：位于网络中后层（在Inception 4d之后）</li>
+</ul>
+</li>
+<li>辅助分类器：
+<ul>
+<li>平均池化层：</li>
+<li>1×1卷积层</li>
+<li>全连接层</li>
+<li>全连接层</li>
+<li>Softmax：用于多分类神经网络输出
+<ul>
+<li>\sigma(\mathbf{z})_i = \frac{e<sup>{z_i}}{\sum_{j=1}</sup>{N} e^{z_j}}</li>
+<li>用于多于一个输出的神经元，保证所有的输出神经元之和为1.0，所以一般输出的是小于1的概率值，可以很直观地比较各输出值。<br>
+<img src="https://apricity0815.github.io/post-images/1763985975743.png" alt="" loading="lazy"><br>
+<img src="https://apricity0815.github.io/post-images/1763985983127.png" alt="" loading="lazy"><br>
+<strong>作用：</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>避免梯度消失，用于向前传导梯度。反向传播时如果有一层求导为（无限逼近）0，链式求导结果则为0。</li>
+<li>将中间某一层输出用作分类，并按一个较小的权重(0.3)加到最终分类结果，起到模型融合作用。</li>
+</ul>
+<h2 id="24-输出层">2.4 输出层</h2>
+<p><img src="https://apricity0815.github.io/post-images/1763986332325.png" alt="" loading="lazy"><br>
+<strong>特点：</strong> 使用<strong>全局平均池化层</strong> 和<strong>一层全连接层</strong> 代替原来的两层全连接层（AlexNet）<br>
+<strong>作用：</strong></p>
+<ul>
+<li><strong>减少参数数量，防止过拟合：</strong> 全连接层会引入大量参数，易导致过拟合。而全局平均池化层没有参数，它只是对每个特征图取平均值。然后接一个全连接层，其参数数量为（通道数×类别数）。例如，如果通道数是1024，类别数是1000，那么参数为1024*1000=1.024M，大大减少了参数数量。</li>
+<li><strong>全局平均池化层作为正则化器</strong>：通过对每个特征图取平均值，强制使特征图与类别之间产生关联，有助于提高模型的泛化能力。每个特征图可以被视为对某个类别特征的响应，全局平均池化则综合这些响应。</li>
+</ul>
+<h1 id="3复现">3.复现</h1>
+<pre><code>import torch
+from torch import nn
+from torch.nn import functional as F
+from torchinfo import summary
+
+class GoogLeNet(nn.Module):
+    def __init__(self, num_classes=1000, aux_logits=True, init_weights=False):
+        super(GoogLeNet, self).__init__()
+        self.aux_logits = aux_logits
+
+        self.conv1 = BasicConv2d(3, 64, kernel_size=7, stride=2, padding=3)
+        self.maxpool1 = nn.MaxPool2d(3, stride=2, ceil_mode=True)
+
+        self.conv2 = BasicConv2d(64, 64, kernel_size=1)
+        self.conv3 = BasicConv2d(64, 192, kernel_size=3, padding=1)
+        self.maxpool2 = nn.MaxPool2d(3, stride=2, ceil_mode=True)
+
+        self.inception3a = Inception(192, 64, 96, 128, 16, 32, 32)
+        self.inception3b = Inception(256, 128, 128, 192, 32, 96, 64)
+        self.maxpool3 = nn.MaxPool2d(3, stride=2, ceil_mode=True)
+
+        self.inception4a = Inception(480, 192, 96, 208, 16, 48, 64)
+        self.inception4b = Inception(512, 160, 112, 224, 24, 64, 64)
+        self.inception4c = Inception(512, 128, 128, 256, 24, 64, 64)
+        self.inception4d = Inception(512, 112, 144, 288, 32, 64, 64)
+        self.inception4e = Inception(528, 256, 160, 320, 32, 128, 128)
+        self.maxpool4 = nn.MaxPool2d(3, stride=2, ceil_mode=True)
+
+        self.inception5a = Inception(832, 256, 160, 320, 32, 128, 128)
+        self.inception5b = Inception(832, 384, 192, 384, 48, 128, 128)
+
+        if self.aux_logits:
+            self.aux1 = InceptionAux(512, num_classes)
+            self.aux2 = InceptionAux(528, num_classes)
+
+        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
+        self.dropout = nn.Dropout(0.4)
+        self.fc = nn.Linear(1024, num_classes)
+        if init_weights:
+            self._initialize_weights()
+
+    def forward(self, x):
+        # N x 3 x 224 x 224
+        x = self.conv1(x)
+        # N x 64 x 112 x 112
+        x = self.maxpool1(x)
+        # N x 64 x 56 x 56
+        x = self.conv2(x)
+        # N x 64 x 56 x 56
+        x = self.conv3(x)
+        # N x 192 x 56 x 56
+        x = self.maxpool2(x)
+
+        # N x 192 x 28 x 28
+        x = self.inception3a(x)
+        # N x 256 x 28 x 28
+        x = self.inception3b(x)
+        # N x 480 x 28 x 28
+        x = self.maxpool3(x)
+        # N x 480 x 14 x 14
+        x = self.inception4a(x)
+        # N x 512 x 14 x 14
+        if self.training and self.aux_logits:    # eval model lose this layer
+            aux1 = self.aux1(x)
+
+        x = self.inception4b(x)
+        # N x 512 x 14 x 14
+        x = self.inception4c(x)
+        # N x 512 x 14 x 14
+        x = self.inception4d(x)
+        # N x 528 x 14 x 14
+        if self.training and self.aux_logits:    # eval model lose this layer
+            aux2 = self.aux2(x)
+
+        x = self.inception4e(x)
+        # N x 832 x 14 x 14
+        x = self.maxpool4(x)
+        # N x 832 x 7 x 7
+        x = self.inception5a(x)
+        # N x 832 x 7 x 7
+        x = self.inception5b(x)
+        # N x 1024 x 7 x 7
+
+        x = self.avgpool(x)
+        # N x 1024 x 1 x 1
+        x = torch.flatten(x, 1)
+        # N x 1024
+        x = self.dropout(x)
+        x = self.fc(x)
+        # N x 1000 (num_classes)
+        if self.training and self.aux_logits:   # eval model lose this layer
+            return x, aux2, aux1
+        return x
+
+    def _initialize_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+                if m.bias is not None:
+                    nn.init.constant_(m.bias, 0)
+            elif isinstance(m, nn.Linear):
+                nn.init.normal_(m.weight, 0, 0.01)
+                nn.init.constant_(m.bias, 0)
+
+#inception结构
+class Inception(nn.Module):
+    def __init__(self, in_channels, ch1x1, ch3x3red, ch3x3, ch5x5red, ch5x5, pool_proj):
+        super(Inception, self).__init__()
+
+        self.branch1 = BasicConv2d(in_channels, ch1x1, kernel_size=1)
+
+        self.branch2 = nn.Sequential(
+            BasicConv2d(in_channels, ch3x3red, kernel_size=1),
+            BasicConv2d(ch3x3red, ch3x3, kernel_size=3, padding=1)   # 保证输出大小等于输入大小
+        )
+
+        self.branch3 = nn.Sequential(
+            BasicConv2d(in_channels, ch5x5red, kernel_size=1),
+            BasicConv2d(ch5x5red, ch5x5, kernel_size=5, padding=2)   # 保证输出大小等于输入大小
+        )
+
+        self.branch4 = nn.Sequential(
+            nn.MaxPool2d(kernel_size=3, stride=1, padding=1),
+            BasicConv2d(in_channels, pool_proj, kernel_size=1)
+        )
+
+    def forward(self, x):
+        branch1 = self.branch1(x)
+        branch2 = self.branch2(x)
+        branch3 = self.branch3(x)
+        branch4 = self.branch4(x)
+
+        outputs = [branch1, branch2, branch3, branch4]
+        return torch.cat(outputs, 1)
+
+#辅助分类器
+class InceptionAux(nn.Module):
+    def __init__(self, in_channels, num_classes):
+        super(InceptionAux, self).__init__()
+        self.averagePool = nn.AvgPool2d(kernel_size=5, stride=3)
+        self.conv = BasicConv2d(in_channels, 128, kernel_size=1)  # output[batch, 128, 4, 4]
+
+        self.fc1 = nn.Linear(2048, 1024)
+        self.fc2 = nn.Linear(1024, num_classes)
+
+    def forward(self, x):
+        # aux1: N x 512 x 14 x 14, aux2: N x 528 x 14 x 14
+        x = self.averagePool(x)
+        # aux1: N x 512 x 4 x 4, aux2: N x 528 x 4 x 4
+        x = self.conv(x)
+        # N x 128 x 4 x 4
+        x = torch.flatten(x, 1)
+        x = F.dropout(x, 0.5, training=self.training)
+        # N x 2048
+        x = F.relu(self.fc1(x), inplace=True)
+        x = F.dropout(x, 0.5, training=self.training)
+        # N x 1024
+        x = self.fc2(x)
+        # N x num_classes
+        return x
+
+
+class BasicConv2d(nn.Module):
+    def __init__(self, in_channels, out_channels, **kwargs):
+        super(BasicConv2d, self).__init__()
+        self.conv = nn.Conv2d(in_channels, out_channels, **kwargs)
+        self.relu = nn.ReLU(inplace=True)
+
+    def forward(self, x):
+        x = self.conv(x)
+        x = self.relu(x)
+        return x
+
+data = torch.ones(20,3,223,224)
+net = GoogLeNet()
+summary(net,(20,3,224,224),device=&quot;cpu&quot;)
+</code></pre>
+
+                </div>
+            </article>
+        </main>
+    </div>
+    <div class="doc-footer-nav mdui-color-theme">
+        <div class="mdui-container">
+            <div class="mdui-row">
+                
+                <div class="mdui-col-xs-2 mdui-col-sm-6 doc-footer-nav-left"></div>
+                
+                
+                <a href="https://apricity0815.github.io/post/hello-gridea/" class="mdui-ripple mdui-color-theme mdui-col-xs-10 mdui-col-sm-6 doc-footer-nav-right">
+                    <div class="doc-footer-nav-text">
+                        <i class="mdui-icon material-icons">arrow_forward</i>
+                        <span class="doc-footer-nav-direction">下一篇文章</span>
+                        <div class="doc-footer-nav-chapter">Hello Gridea</div>
+                    </div>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+    <br>
+    
+    
+</div>
+<footer class="mdui-container footer ">
+<!--    <div class="head_card-offset"></div>-->
+    <div class="mdui-row mdui-row-gapless">
+        <div class="k-container">
+            <img width="100%" src="/media/img/skirt.png">
+        </div>
+    </div>
+
+    <div class="site-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+</footer>
+<div id="landlord" style="left:5px;bottom:0px;">
+    <div class="message" style="opacity:0"></div>
+    <canvas id="live2d" width="500" height="560" class="live2d"></canvas>
+    <div class="live_talk_input_body">
+        <div class="live_talk_input_name_body">
+            <input name="name" type="text" class="live_talk_name white_input" id="AIuserName" autocomplete="off" placeholder="你的名字" />
+        </div>
+        <div class="live_talk_input_text_body">
+            <input name="talk" type="text" class="live_talk_talk white_input" id="AIuserText" autocomplete="off" placeholder="要和我聊什么呀？"/>
+            <button type="button" class="live_talk_send_btn" id="talk_send">发送</button>
+        </div>
+    </div>
+    <input name="live_talk" id="live_talk" value="1" type="hidden" />
+    <div class="live_ico_box">
+        <div class="live_ico_item type_info" id="showInfoBtn"></div>
+        <div class="live_ico_item type_talk" id="showTalkBtn"></div>
+        <div class="live_ico_item type_music" id="musicButton"></div>
+        <div class="live_ico_item type_youdu" id="youduButton"></div>
+        <div class="live_ico_item type_quit" id="hideButton"></div>
+        <input name="live_statu_val" id="live_statu_val" value="0" type="hidden" />
+        <audio src="" style="display:none;" id="live2d_bgm" data-bgm="0" preload="none"></audio>
+        <input name="live2dBGM" value="https://webfs.kugou.com/202510202150/898a0d66a25db35a526bee7ac1e0c46f/v3/4a544525c1f78dbdf25361db0e255495/yp/p_0_960115/ap1014_us1991735985_mii0w1iw8z2ai2iphcu80ooo2ki81120_pi406_mx32118015_s2982586508.mp3" type="hidden">
+        <!-- <input name="live2dBGM" value="https://img.apa70.com/123.mp3" type="hidden"> -->
+        <!-- <input name="live2dBGM" value="https://img.apa70.com/123.mp3" type="hidden"> -->
+        <input id="duType" value="douqilai,l2d_caihong" type="hidden">
+    </div>
+</div>
+<div id="open_live2d">召唤伊斯特瓦尔</div>
+<script>
+    var message_Path = '/media/live2d/';//资源目录，如果目录不对请更改
+    var talkAPI = "";//如果有类似图灵机器人的聊天接口请填写接口路径
+</script>
+<!--<script src="/media/js/jquery-3.3.1.min.js"></script>-->
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="/media/live2d/js/live2d.js"></script>
+<script type="text/javascript" src="/media/live2d/js/message.js"></script>
+
+</body>
+<script src="media/mdui/js/mdui.min.js"></script>
+<script src="/media/layer/layer.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@4.11.1/dist/av-min.js"></script>
+<script src="//unpkg.com/vue@next"></script>
+<script>
+    
+</script>
+<script type="module" src="media/js/post.js"></script>
+</html>
