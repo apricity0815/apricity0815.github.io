@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Superpowers使用指南 | apricity</title>
+<meta name="description" content="欢迎到访Apricity的个人博客！">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://apricity0815.github.io/favicon.ico?v=1779896452191">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://apricity0815.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://apricity0815.github.io">apricity</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                关于
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>Superpowers使用指南</h1>
+            <p class="article-meta">
+              2026-05-27
+              
+            </p>
+            
+            <div class="post-content" v-pre>
+              <h1 id="一-superpowers是什么">一、superpowers是什么？</h1>
+<ul>
+<li>superpowers是一套给 AI 编程 Agent 使用的标准化开发流程</li>
+<li>Superpowers 把整个软件开发过程编排成七个阶段，每个阶段有明确的「入口条件」和「出口条件」</li>
+</ul>
+<pre><code>→ Brainstorming（头脑风暴）
+→ Git Worktree（工作区隔离）
+→ Writing Plans（编写计划）
+→ Subagent-Driven Development（子代理驱动开发）
+→ Test-Driven Development（测试驱动开发）
+→ Code Review（代码审查）
+→ Finishing Branch（分支收尾）
+</code></pre>
+<h1 id="二-核心流程拆解">二、核心流程拆解</h1>
+<ol>
+<li>Brainstorming（头脑风暴）
+<ul>
+<li>
+<p><strong>触发时机</strong>：在任何代码编写、功能创建或行为修改之前强制触发。</p>
+</li>
+<li>
+<p><strong>核心动作</strong>：</p>
+<ol>
+<li><strong>探索项目上下文</strong>：检查现有文件、文档和近期提交，理解当前系统状态</li>
+<li><strong>苏格拉底式追问</strong>：一次只提一个问题（优先选择题），聚焦目的、约束、成功标准</li>
+<li><strong>提出 2-3 种方案</strong>：给出不同选项的 Trade-off 并给出推荐</li>
+<li><strong>分段展示设计</strong>：按复杂度分块展示（简单功能几句话，复杂功能 200-300 字），每段后请求用户确认</li>
+<li><strong>写入设计文档</strong>：将批准的设计保存至 <code>docs/plans/YYYY-MM-DD-&lt;topic&gt;-design.md</code> 并提交</li>
+</ol>
+</li>
+<li>
+<p><strong>关键原则</strong>：<strong>&quot;Do NOT invoke any implementation skill... until you have presented a design and the user has approved it.&quot;</strong> 即使是 TODO 列表、单函数工具或配置变更，也必须经过此过程。</p>
+</li>
+</ul>
+</li>
+<li>Git Worktree（工作区隔离）
+<ul>
+<li><strong>触发时机</strong>：设计文档获得用户批准后，进入实施阶段前。</li>
+<li><strong>核心动作</strong>：
+<ol>
+<li>基于新分支创建独立的 Git Worktree 工作目录</li>
+<li>验证 <code>.gitignore</code> 配置</li>
+<li>运行项目初始化和依赖安装</li>
+<li>运行现有测试基线，确保环境干净</li>
+</ol>
+</li>
+<li><strong>为什么隔离</strong>：新项目探索性强，方向随时可能调整。Worktree 提供了&quot;改坏了直接删除重来，主分支干干净净&quot;的安全网，避免实验性开发污染生产代码。</li>
+</ul>
+</li>
+<li>Writing Plans（编写计划）
+<ul>
+<li><strong>触发时机</strong>：设计已批准，Worktree 准备就绪后。</li>
+<li><strong>核心动作</strong>： 将设计文档拆解为<strong>粒度极细的任务</strong>（官方推荐 2-5 分钟完成一个），每个任务必须包含：
+<ul>
+<li><strong>精确的文件路径</strong>：不允许模糊定位</li>
+<li><strong>完整的代码内容</strong>：<strong>禁止 TBD、TODO 等占位符</strong>，必须是可以直接落地的完整实现</li>
+<li><strong>明确的验证步骤</strong>：如何确认该任务完成</li>
+</ul>
+</li>
+<li><strong>设计哲学</strong>：计划的清晰度必须达到&quot;足以让一个热情但品味差、缺乏判断力、不了解项目背景且讨厌测试的初级工程师都能执行&quot;的程度。</li>
+</ul>
+</li>
+<li>Subagent-Driven Development（子代理驱动开发）
+<ul>
+<li><strong>触发时机</strong>：实施计划就绪后，作为核心执行引擎启动。</li>
+<li><strong>核心动作</strong>：
+<ul>
+<li><strong>每个任务派遣一个全新的子代理（Fresh Subagent）</strong>，子代理不继承主会话的任何上下文</li>
+<li>主 Agent 负责协调，子 Agent 只拿到当前任务的完整描述和必要代码</li>
+<li>执行<strong>两阶段审查</strong>：
+<ol>
+<li><strong>规格合规性</strong>：实现是否符合计划？</li>
+<li><strong>代码质量</strong>：代码本身是否优质？</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Test-Driven Development（测试驱动开发）
+<ul>
+<li><strong>触发时机</strong>：每个子代理执行具体任务时强制嵌入。</li>
+<li><strong>核心动作（铁律级 RED-GREEN-REFACTOR）</strong>：
+<ol>
+<li><strong>RED</strong>：先写一个失败的测试（或让现有测试失败）</li>
+<li><strong>GREEN</strong>：写最小量的生产代码使测试通过</li>
+<li><strong>REFACTOR</strong>：重构代码，保持测试通过</li>
+<li><strong>COMMIT</strong>：提交</li>
+</ol>
+</li>
+<li><strong>铁律</strong>：<strong>&quot;Code written before its test gets deleted.&quot;</strong> 任何在测试之前编写的生产代码都会被删除。</li>
+</ul>
+</li>
+<li>Code Review（代码审查）<br>
+<strong>触发时机</strong>：每个任务完成后，进入下一个任务前。<br>
+<strong>核心动作</strong>：
+<ul>
+<li>对照原始计划审查实现偏差</li>
+<li>按严重程度分类报告问题（Critical / Major / Minor）</li>
+<li><strong>Critical 问题阻塞流程</strong>：必须修复后才能继续下一步</li>
+<li>生成结构化的审查报告，覆盖功能、性能、安全维度</li>
+</ul>
+</li>
+<li>Finishing Branch（分支收尾）
+<ul>
+<li><strong>触发时机</strong>：全部任务完成且审查通过后。</li>
+<li><strong>核心动作</strong>：
+<ol>
+<li><strong>最终验证</strong>：运行完整测试套件，确认全部通过</li>
+<li><strong>决策四选一</strong>：
+<ul>
+<li><strong>合并</strong>：直接合并到主分支</li>
+<li><strong>PR</strong>：提交 Pull Request 供团队评审</li>
+<li><strong>保留</strong>：保留分支但暂不合并</li>
+<li><strong>丢弃</strong>：实验性分支直接删除</li>
+</ul>
+</li>
+<li><strong>清理 Worktree</strong>：移除临时工作空间</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="三-强制触发机制为什么-agent-不会偷懒">三、强制触发机制：为什么 Agent 不会&quot;偷懒&quot;</h1>
+<ul>
+<li>Superpowers 能跑起来的关键不是建议，而是<strong>强制性</strong>。如果存在适用的 Skill，Agent 必须使用，没有选择余地。</li>
+<li>其设计借用了 Robert Cialdini 的说服学原理：
+<ul>
+<li><strong>权威性</strong>：提示词中声明&quot;技能是强制性的&quot;</li>
+<li><strong>承诺一致性</strong>：让 Agent 主动宣布正在使用某 Skill</li>
+<li><strong>社会证明</strong>：描述&quot;始终&quot;会发生什么</li>
+</ul>
+</li>
+<li>这套机制确保 Agent 不会在你说&quot;写个登录功能&quot;时直接开始堆代码，而是乖乖走完七步流程。</li>
+</ul>
+<h1 id="四-skill-分类体系">四、Skill 分类体系</h1>
+<p>14 个核心 Skill 按职责分为四类，支撑上述七步流程：</p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>包含 Skill</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>协作类</strong></td>
+<td><code>brainstorming</code>, <code>writing-plans</code>, <code>executing-plans</code>, <code>subagent-driven-development</code>, <code>dispatching-parallel-agents</code>, <code>requesting-code-review</code>, <code>receiving-code-review</code>, <code>using-git-worktrees</code>, <code>finishing-a-development-branch</code></td>
+<td>需求到交付的全链路协作</td>
+</tr>
+<tr>
+<td><strong>测试类</strong></td>
+<td>test-driven-development</td>
+<td>铁律级 TDD + 完成验证门禁</td>
+</tr>
+<tr>
+<td><strong>调试类</strong></td>
+<td><code>systematic-debugging</code>, <code>verification-before-completion</code></td>
+<td>四阶段根因分析与完成前验证</td>
+</tr>
+<tr>
+<td><strong>元技能类</strong></td>
+<td><code>writing-skills</code>, <code>using-superpowers</code></td>
+<td>自定义 Skill + 系统使用指南</td>
+</tr>
+</tbody>
+</table>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://apricity0815.github.io/post/wu-chai-ping-gu-zhi-biao-zheng-li/">
+                <h3 class="post-title">
+                  误差评估指标整理
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="gitalk-container"></div>
+            </div>
+          
+
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://apricity0815.github.io/images/avatar.png?v=1779896452191" class="no-responsive avatar">
+    <div class="text-muted">欢迎到访Apricity的个人博客！</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://apricity0815.github.io/post/superpowers-shi-yong-zhi-nan/">Superpowers使用指南</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://apricity0815.github.io/post/wu-chai-ping-gu-zhi-biao-zheng-li/">误差评估指标整理</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://apricity0815.github.io/post/ke-yan-lun-wen-yue-du-prompt-ji-neng-shou-ce/"> 科研论文阅读 Prompt 技能手册</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://apricity0815.github.io/post/about/">关于</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://apricity0815.github.io/post/hello-gridea/">Hello Gridea</a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://apricity0815.github.io/tag/tWHSWEinFv/" class="badge secondary">
+          论文学习
+        </a>
+      
+        <a href="https://apricity0815.github.io/tag/Zs1jcYBfcw/" class="badge warning">
+          水水论论文文
+        </a>
+      
+        <a href="https://apricity0815.github.io/tag/3Wxz015Rlv/" class="badge secondary">
+          Gridea
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://apricity0815.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'Ov23lihHWdMvIZY7Fuyw',
+        clientSecret: '65fcf02895ae82971e42c090a674675acdee791b',
+        repo: 'apricity0815.github.io',
+        owner: 'apricity0815',
+        admin: ['apricity0815'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
